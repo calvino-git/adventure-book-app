@@ -15,15 +15,15 @@ public class Book {
     private String author;
     private BookDifficulty difficulty ;
     private List<BookCategory> categories = new ArrayList<>();
-    private List<Section> sections = new ArrayList<>();;
+    private List<Section> sections = new ArrayList<>();
 
-    public static Book createBook(UUID id, String title, String author, BookDifficulty difficulty, List<BookCategory> categories, List<Section> sections) {
+    public static Book createBook(UUID id, String title, String author, BookDifficulty difficulty, List<BookCategory> categories, List<Section> sections) throws InvalidStateException {
         Book book = new Book();
         if(sections.stream().filter(s->s.type().equals(SectionType.BEGIN)).count() > 1){
-            System.out.println("book more than one beginning");
+            throw new InvalidStateException("book more than one beginning");
         }else
         if(sections.stream().noneMatch(s -> s.type().equals(SectionType.END))) {
-            System.out.println("Book has no ending");
+            throw new InvalidStateException("Book has no ending");
         }else {
             book.setId(id);
             book.setTitle(title);
